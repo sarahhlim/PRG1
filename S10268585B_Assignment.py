@@ -324,3 +324,39 @@ def show_town_menu():
     print('Sa(V)e game')
     print('(Q)uit to main menu')
     print('------------------------')
+
+def render_viewport(grid, player, fog):
+    #Gets the player's current coordinates.
+    x, y = player['pos']
+    out = []
+    #to cover the 3 rows and 3 columns around the player (including their current tile).
+    for dy in (-1, 0, 1):
+        row = ''
+        for dx in (-1, 0, 1):
+            nx, ny = x + dx, y + dy
+            #If it's outside the map boundaries (in_bounds returns False), it adds a '#' to the row, representing a wall or edge.
+            if not in_bounds(grid, nx, ny):
+                row += '#'
+            else:
+                if dx == 0 and dy == 0:
+                    #player's current position
+                    row += 'M'
+                else:
+                    ch = grid[ny][nx]
+                    #check if its empty and output shows a blank space
+                    if ch == ' ':
+                        row += ' '
+                    else:
+                        # show the ores symbol
+                        row += ch
+          
+            #check if the coords are inside the grid boundaries
+            if in_bounds(grid, nx, ny):
+                #if yes then the tile is revealed 
+                fog[ny][nx] = True
+        out.append(row)
+
+    print('\n+---+')
+    for r in out:
+        print('|' + r + '|')
+    print('+---+')
