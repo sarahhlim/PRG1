@@ -488,3 +488,28 @@ def enter_mine(grid, player, fog):
             continue
         else:
             print('Invalid action.')
+
+def use_portal(player, fog):
+    # place portal at current location and return to town
+    player['portal'][0] = player['pos'][0]
+    player['portal'][1] = player['pos'][1]
+    print('You place your portal stone here and zap back to town.')
+
+    sell_all(player)
+
+    # increase the day and reset 20 turns
+    player['day'] += 1
+    player['turns_left'] = 20
+
+    # teleport player to the portal position if valid, else to town
+    #gets the portal coords
+    px, py = player['portal']
+    #check if its in the boundaries and if its empty
+    if in_bounds(grid, px, py) and tile_at(grid, px, py) != ' ':
+        #if both are true, it moves the player to that coords
+        player['pos'] = [px, py]
+    else:
+        #If not, it finds the town location ('T') on the map and sends the player there instead
+        town_pos = find_tile(grid, 'T')
+        if town_pos:
+            player['pos'] = [town_pos[0], town_pos[1]]
