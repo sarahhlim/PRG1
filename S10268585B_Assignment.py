@@ -55,3 +55,30 @@ def tile_at(grid, x, y):
         return grid[y][x]
     #if invaild, doesnt return anything
     return None
+
+# ----------------------------
+# Game state and defaults
+# ----------------------------
+
+def new_player(name, town_pos):
+    #This function sets up the initial state of the player when starting a new game(basically default setting)
+    return {
+        'name': name,
+        'pos': town_pos[:],  # [x,y]
+        'portal': town_pos[:],
+        'pickaxe': 1,  # 1=copper,2=silver,3=gold
+        'capacity': 10,
+        'copper': 0,
+        'silver': 0,
+        'gold': 0,
+        'gp': 0,
+        'steps': 0,
+        'day': 1,
+        'turns_left': 20,
+    }
+
+# ----------------------------
+# Save / Load
+# ----------------------------
+
+def save_game(player, fog, filename=SAVE_FILENAME):
