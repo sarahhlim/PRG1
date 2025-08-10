@@ -414,3 +414,23 @@ def enter_mine(grid, player, fog):
         if action == 'M':
             show_map(grid, player, fog)
             continue
+        if action == 'I':
+            show_player_info(player)
+            continue
+        if action == 'P':
+            # use portal
+            use_portal(player, fog)
+            return
+        if action == 'Q':
+            # quit to town (no portal used)
+            print('Quitting to town (no portal used).')
+            return
+        if action in ['W','A','S','D']:
+            dx = 0; dy = 0
+            if action == 'W': dy = -1
+            if action == 'S': dy = 1
+            if action == 'A': dx = -1
+            if action == 'D': dx = 1
+            #calculates the new coords
+            nx = player['pos'][0] + dx
+            ny = player['pos'][1] + dy
