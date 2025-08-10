@@ -48,3 +48,10 @@ def find_tile(grid, tile):
 def in_bounds(grid, x, y):
     #Checks if the coordinates (x, y) are within the valid boundaries of the grid.
     return 0 <= y < len(grid) and 0 <= x < len(grid[0])
+
+def tile_at(grid, x, y):
+    #Returns the tile (character) at position (x, y) in the grid if it’s within bounds.
+    if in_bounds(grid, x, y):
+        return grid[y][x]
+    #if invaild, doesnt return anything
+    return None
