@@ -109,3 +109,27 @@ def save_game(player, fog, filename=SAVE_FILENAME):
         print('Game saved.')
     except Exception as e:
         print('Failed to save game:', e)
+
+def load_game(grid, filename=SAVE_FILENAME):
+    try:
+        #open the saved file
+        with open(filename, 'r') as f:
+            lines = [ln.rstrip('\n') for ln in f.readlines()]
+    except Exception as e:
+        print('No save file found.')
+        return None, None
+    try:
+        #read player data
+        count = 0
+        name = lines[count]; count += 1
+        pos = list(map(int, lines[count].split(','))); count += 1
+        portal = list(map(int, lines[count].split(','))); count += 1
+        pickaxe = int(lines[count]); count += 1
+        capacity = int(lines[count]); count += 1
+        copper = int(lines[count]); count += 1
+        silver = int(lines[count]); count += 1
+        gold = int(lines[count]); count += 1
+        gp = int(lines[count]); count += 1
+        steps = int(lines[count]); count += 1
+        day = int(lines[count]); count += 1
+        turns_left = int(lines[count]); count += 1
