@@ -467,3 +467,24 @@ def enter_mine(grid, player, fog):
                             # move onto tile after mining
                             player['pos'][0] = nx
                             player['pos'][1] = ny
+                else:
+                    # empty tile or T
+                    player['pos'][0] = nx
+                    player['pos'][1] = ny
+                    if tile == 'T':
+                        # returned to town naturally
+                        print('You step onto T and return to town.')
+                        use_portal_forced(player, fog)
+                        return
+            #After moving, the code make the player’s step count and reduces their turns left by 1.
+            player['steps'] += 1
+            player['turns_left'] -= 1
+            # check turns left
+            if player['turns_left'] <= 0:
+                print('You are exhausted.')
+                # automatic portal placement
+                use_portal_forced(player, fog)
+                return
+            continue
+        else:
+            print('Invalid action.')
