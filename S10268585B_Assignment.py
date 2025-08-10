@@ -392,3 +392,25 @@ def show_map(grid, player, fog):
         print(s)
         #It visually frames the map horizontally.
     print('+{}+'.format('-' * (len(grid[0]) + 2)))
+
+# ----------------------------
+# Game loops
+# ----------------------------
+
+def enter_mine(grid, player, fog):
+    # Ensure player starts at portal position when entering mine
+    player['pos'] = player['portal'][:]
+    print('\n---------------------------------------------------')
+    print(' DAY {}'.format(player['day']))
+    print('---------------------------------------------------')
+    while True:
+        # display viewport and info
+        render_viewport(grid, player, fog)
+        load = player['copper'] + player['silver'] + player['gold']
+        print('Turns left: {} Load: {} / {} Steps: {}'.format(player['turns_left'], load, player['capacity'], player['steps']))
+        print('(WASD) to move')
+        print('(M)ap, (I)nformation, (P)ortal, (Q)uit to main menu')
+        action = input('Action? ').strip().upper()
+        if action == 'M':
+            show_map(grid, player, fog)
+            continue
