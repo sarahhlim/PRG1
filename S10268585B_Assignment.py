@@ -434,3 +434,36 @@ def enter_mine(grid, player, fog):
             #calculates the new coords
             nx = player['pos'][0] + dx
             ny = player['pos'][1] + dy
+            # bounds check
+            if not in_bounds(grid, nx, ny):
+                print("You can't go that way.")
+            else:
+                #shows what kind of character is at the position
+                tile = grid[ny][nx]
+                #sums up the ores that the player is currently carrying
+                load = player['copper'] + player['silver'] + player['gold']
+                #check if the tile is ore
+                if tile in ['C','S','G']:
+                    #check if the player has enough space
+                    if load >= player['capacity']:
+                        print("You can't carry any more, so you can't go that way.")
+                    else:
+                        #check if the pickaxe is good enough
+                        if not can_mine(player, tile):
+                            print("Your pickaxe is not good enough to mine that.")
+                        else:
+                            taken, amt = mine_tile(player, tile)
+                            if taken > 0:
+                                #shows how much the player mined and how many they can take
+                                print('You mined {} piece(s) of {}.'.format(amt, 'copper' if tile=='C' else 'silver' if tile=='S' else 'gold'))
+                                if taken < amt:
+                                    space = player['capacity'] - load
+                                    #It prints how many pieces were mined.
+                                    print("...but you can only carry {} more piece(s)!".format(space))
+                                # REMOVE ore from map here
+                                grid[ny][nx] = ' '
+                            else:
+                                print('No space to carry ore.')
+                            # move onto tile after mining
+                            player['pos'][0] = nx
+                            player['pos'][1] = ny
