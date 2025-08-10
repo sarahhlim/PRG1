@@ -291,3 +291,36 @@ def mine_tile(player, tile):
         #amt: the random amount attempted to mine
         return taken, amt
     return 0, 0
+
+# ----------------------------
+# Display functions
+# ----------------------------
+
+def show_player_info(player):
+    print('\n----- Player Information -----')
+    print('Name:', player['name'])
+    print('Current position: ({}, {})'.format(player['pos'][0], player['pos'][1]))
+    pickaxelevel = {1: '1 (copper)', 2: '2 (silver)', 3: '3 (gold)'}
+    print('Pickaxe level:', pickaxelevel.get(player['pickaxe'], str(player['pickaxe'])))
+    print('Gold:', player['gold'])
+    print('Silver:', player['silver'])
+    print('Copper:', player['copper'])
+    load = player['copper'] + player['silver'] + player['gold']
+    print('------------------------------')
+    print('Load: {} / {}'.format(load, player['capacity']))
+    print('------------------------------')
+    print('GP:', player['gp'])
+    print('Steps taken:', player['steps'])
+    print('------------------------------')
+
+
+def show_town_menu():
+    print('\nDAY {}'.format(player['day']))
+    print('----- Sundrop Town -----')
+    print('(B)uy stuff')
+    print('See Player (I)nformation')
+    print('See Mine (M)ap')
+    print('(E)nter mine')
+    print('Sa(V)e game')
+    print('(Q)uit to main menu')
+    print('------------------------')
