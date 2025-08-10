@@ -525,3 +525,17 @@ def use_portal(player, fog):
         print('And it only took you {} days and {} steps! You win!'.format(player['day'], player['steps']))
         print('-------------------------------------------------------------')
         raise SystemExit
+
+def use_portal_forced(player, fog):
+    # like use_portal but used when stepping on T or turns end; still sells ores
+    use_portal(player, fog)
+
+# ----------------------------
+# Main program
+# ----------------------------
+
+grid = read_map(MAP_FILENAME)
+
+def make_fog():
+    #make everything unknown
+    return [[False] * len(grid[0]) for _ in range(len(grid))]
