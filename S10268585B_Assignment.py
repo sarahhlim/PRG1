@@ -632,3 +632,48 @@ while True:
                 for dx in (-1,0,1):
                     nx, ny = x+dx, y+dy
                     if in_bounds(grid, nx, ny):
+                        fog[ny][nx] = True
+            # go to town after load
+            while True:
+                sell_all(player)
+                print('\nDAY {}'.format(player['day']))
+                print('----- Sundrop Town -----')
+                print('(B)uy stuff')
+                print('See Player (I)nformation')
+                print('See Mine (M)ap')
+                print('(E)nter mine')
+                print('Sa(V)e game')
+                print('(Q)uit to main menu')
+                print('------------------------')
+                ch = input('Your choice? ').strip().upper()
+                if ch == 'B':
+                    shop_menu(player)
+                    continue
+                elif ch == 'I':
+                    show_player_info(player)
+                    continue
+                elif ch == 'M':
+                    show_map(grid, player, fog)
+                    continue
+                elif ch == 'E':
+                    try:
+                        enter_mine(grid, player, fog)
+                    except SystemExit: #If enter_mine() raises SystemExit (e.g., player won or quit), the program catches it to stop the current loop without crashing the entire program.
+                        break
+                    continue
+                elif ch == 'V':
+                    save_game(player, fog)
+                    continue
+                elif ch == 'Q':
+                    print('Returning to main menu...')
+                    break
+                else:
+                    print('Invalid choice.')
+            continue
+        else:
+            continue
+    elif choice == 'Q':
+        print('Goodbye!')
+        break
+    else:
+        print('Invalid choice. Please select N, L or Q.')
