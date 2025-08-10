@@ -208,3 +208,50 @@ def shop_menu(player):
             else:
                 #no more pickaxe to buy
                 print('You already have the best pickaxe.')
+        elif choice == 'B':
+            price = cap_upgrade_price
+            if player['gp'] >= price:
+                player['gp'] -= price
+                player['capacity'] += 2
+                print('Congratulations! You can now carry {} items!'.format(player['capacity']))
+            else:
+                print('Not enough GP for backpack upgrade.')
+        elif choice == 'L':
+            return
+        else:
+            print('Invalid choice.')
+
+# ----------------------------
+# Prices and mining
+# ----------------------------
+
+def sell_all(player):
+    # prices of ores
+    copper_price = random.randint(1, 3)
+    silver_price = random.randint(5, 8)
+    gold_price = random.randint(10, 18)
+
+    total = 0
+    if player['copper'] > 0:
+        earned = player['copper'] * copper_price
+        print('You sell {} copper ore for {} GP.'.format(player['copper'], earned))
+        total += earned
+        #reset the ore to 0
+        player['copper'] = 0
+    if player['silver'] > 0:
+        earned = player['silver'] * silver_price
+        print('You sell {} silver ore for {} GP.'.format(player['silver'], earned))
+        total += earned
+        #reset the ore to 0
+        player['silver'] = 0
+    if player['gold'] > 0:
+        earned = player['gold'] * gold_price
+        print('You sell {} gold ore for {} GP.'.format(player['gold'], earned))
+        total += earned
+        #reset the ore to 0
+        player['gold'] = 0
+    if total > 0:
+        #adds everything tgt and show the new amount of money
+        player['gp'] += total
+        print('You now have {} GP!'.format(player['gp']))
+    return total
