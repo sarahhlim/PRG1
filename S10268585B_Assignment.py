@@ -166,3 +166,45 @@ def load_game(grid, filename=SAVE_FILENAME):
     except Exception as e:
         print('Failed to load save:', e)
         return None, None
+
+# ----------------------------
+# Shop
+# ----------------------------
+
+def shop_menu(player):
+    while True:
+        print('\n----------------------- Shop Menu -------------------------')
+        if player['pickaxe'] < 2:
+            print('(P)ickaxe upgrade to Level 2 to mine silver ore for 50 GP')
+        elif player['pickaxe'] < 3:
+            print('(P)ickaxe upgrade to Level 3 to mine gold ore for 150 GP')
+            #calculates the price of the new backpack
+        cap_upgrade_price = player['capacity'] * 2
+        #prints the backpack update option
+        print('(B)ackpack upgrade to carry {} items for {} GP'.format(player['capacity'] + 2, cap_upgrade_price))
+        print('(L)eave shop')
+        print('-----------------------------------------------------------')
+        print('GP: {}'.format(player['gp']))
+        choice = input('Your choice? ').strip().upper()
+        if choice == 'P':
+            if player['pickaxe'] == 1:
+                price = 50
+                #check whether it has enough money
+                if player['gp'] >= price:
+                    #minus the money
+                    player['gp'] -= price
+                    player['pickaxe'] = 2
+                    print('Pickaxe upgraded to Level 2! You can now mine silver.')
+                else:
+                    print('Not enough GP.')
+            elif player['pickaxe'] == 2:
+                price = 150
+                if player['gp'] >= price:
+                    player['gp'] -= price
+                    player['pickaxe'] = 3
+                    print('Pickaxe upgraded to Level 3! You can now mine gold.')
+                else:
+                    print('Not enough GP.')
+            else:
+                #no more pickaxe to buy
+                print('You already have the best pickaxe.')
