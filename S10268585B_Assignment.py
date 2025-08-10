@@ -101,3 +101,11 @@ def save_game(player, fog, filename=SAVE_FILENAME):
 
         # save fog based on whether it is visible or not
         for row in fog:
+            #1=visible, 0=not visible 
+            lines.append(''.join('1' if v else '0' for v in row))
+        #open the file and writes 
+        with open(filename, 'w') as f:
+            f.write('\n'.join(lines))
+        print('Game saved.')
+    except Exception as e:
+        print('Failed to save game:', e)
