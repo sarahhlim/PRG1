@@ -360,3 +360,35 @@ def render_viewport(grid, player, fog):
     for r in out:
         print('|' + r + '|')
     print('+---+')
+
+def show_map(grid, player, fog):
+    #make the map "+---+"
+    print('+{}+'.format('-' * (len(grid[0]) + 2)))
+    for y, row in enumerate(grid):
+        #left border '|'
+        s = '|'
+        for x, ch in enumerate(row):
+            #If the player’s current position matches (x, y), it adds 'M' to represent the player.
+            if player['pos'][0] == x and player['pos'][1] == y:
+                s += 'M'
+            #Else if the portal’s position matches (x, y), it adds 'P' to represent the portal.
+            elif player['portal'][0] == x and player['portal'][1] == y:
+                s += 'P'
+                #t = town
+            elif ch == 'T':
+                s += 'T'
+            elif fog[y][x]:
+                # show revealed tile
+                if ch in ['C', 'S', 'G']:
+                    s += ch
+                else:
+                    s += ' '
+            else:
+                #unknown place in the map
+                s += '?'
+        #closes the border with another '|'
+        s += '|' 
+        # trim to width
+        print(s)
+        #It visually frames the map horizontally.
+    print('+{}+'.format('-' * (len(grid[0]) + 2)))
