@@ -539,3 +539,35 @@ grid = read_map(MAP_FILENAME)
 def make_fog():
     #make everything unknown
     return [[False] * len(grid[0]) for _ in range(len(grid))]
+
+# initial
+
+while True:
+    print('\n---------------- Welcome to Sundrop Caves! ----------------')
+    print('You spent all your money to get the deed to a mine, a small')
+    print('backpack, a simple pickaxe and a magical portal stone.')
+    print('How quickly can you get the 500 GP you need to retire')
+    print('and live happily ever after?')
+    print('-----------------------------------------------------------')
+    print('--- Main Menu ----')
+    print('(N)ew game')
+    print('(L)oad saved game')
+    print('(Q)uit')
+    print('------------------')
+    choice = input('Your choice? ').strip().upper()
+    if choice == 'N':
+        name = input('Greetings, miner! What is your name? ').strip()
+        town_pos = find_tile(grid, 'T')
+        if not town_pos:
+            town_pos = [0, 0]
+        player = new_player(name, [town_pos[0], town_pos[1]])
+        fog = make_fog()
+        # reveal initial nearby squares
+        x,y = player['pos']
+        for dy in (-1,0,1):
+            for dx in (-1,0,1):
+                nx, ny = x+dx, y+dy
+                if in_bounds(grid, nx, ny):
+                    fog[ny][nx] = True
+        print('Pleased to meet you, {}. Welcome to Sundrop Town!'.format(player['name']))
+        # town loop
