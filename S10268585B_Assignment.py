@@ -513,3 +513,15 @@ def use_portal(player, fog):
         town_pos = find_tile(grid, 'T')
         if town_pos:
             player['pos'] = [town_pos[0], town_pos[1]]
+
+    # reveal portal position on fog
+    fog[player['portal'][1]][player['portal'][0]] = True
+
+    # check win
+    if player['gp'] >= 500:
+        print('\n-------------------------------------------------------------')
+        print('Woo-hoo! Well done, {}, you have {} GP!'.format(player['name'], player['gp']))
+        print('You now have enough to retire and play video games every day.')
+        print('And it only took you {} days and {} steps! You win!'.format(player['day'], player['steps']))
+        print('-------------------------------------------------------------')
+        raise SystemExit
