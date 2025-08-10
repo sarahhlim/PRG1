@@ -255,3 +255,39 @@ def sell_all(player):
         player['gp'] += total
         print('You now have {} GP!'.format(player['gp']))
     return total
+
+def can_mine(player, tile):
+    if tile == 'C':
+        return True
+    if tile == 'S' and player['pickaxe'] >= 2:
+        return True
+    if tile == 'G' and player['pickaxe'] >= 3:
+        return True
+    return False
+
+
+def mine_tile(player, tile):
+    # returns number mined, and message
+    if tile == 'C':
+        amt = random.randint(1, 5)
+        #checks how much free space the player has in their inventory
+        space = player['capacity'] - (player['copper'] + player['silver'] + player['gold'])
+        taken = min(amt, space)
+        #takes the minimum of the random amount and available space, so the player never exceeds capacity.
+        player['copper'] += taken
+        return taken, amt
+    if tile == 'S':
+        amt = random.randint(1, 3)
+        space = player['capacity'] - (player['copper'] + player['silver'] + player['gold'])
+        taken = min(amt, space)
+        player['silver'] += taken
+        return taken, amt
+    if tile == 'G':
+        amt = random.randint(1, 2)
+        space = player['capacity'] - (player['copper'] + player['silver'] + player['gold'])
+        taken = min(amt, space)
+        player['gold'] += taken
+        #taken: the actual number of pieces mined and added to inventory (could be less than amt if space is limited)
+        #amt: the random amount attempted to mine
+        return taken, amt
+    return 0, 0
