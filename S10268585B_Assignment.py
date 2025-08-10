@@ -82,3 +82,22 @@ def new_player(name, town_pos):
 # ----------------------------
 
 def save_game(player, fog, filename=SAVE_FILENAME):
+    #saves the current game into a file
+    try:
+        lines = []
+        # basic player info stored
+        lines.append(player['name'])
+        lines.append(','.join(map(str, player['pos'])))
+        lines.append(','.join(map(str, player['portal'])))
+        lines.append(str(player['pickaxe']))
+        lines.append(str(player['capacity']))
+        lines.append(str(player['copper']))
+        lines.append(str(player['silver']))
+        lines.append(str(player['gold']))
+        lines.append(str(player['gp']))
+        lines.append(str(player['steps']))
+        lines.append(str(player['day']))
+        lines.append(str(player['turns_left']))
+
+        # save fog based on whether it is visible or not
+        for row in fog:
