@@ -571,3 +571,64 @@ while True:
                     fog[ny][nx] = True
         print('Pleased to meet you, {}. Welcome to Sundrop Town!'.format(player['name']))
         # town loop
+        while True:
+            # upon entering town, automatically sell all ore
+            sell_all(player)
+            print('\nDAY {}'.format(player['day']))
+            print('----- Sundrop Town -----')
+            print('(B)uy stuff')
+            print('See Player (I)nformation')
+            print('See Mine (M)ap')
+            print('(E)nter mine')
+            print('Sa(V)e game')
+            print('(Q)uit to main menu')
+            print('------------------------')
+            ch = input('Your choice? ').strip().upper()
+            if ch == 'B':
+                shop_menu(player)
+                continue
+            elif ch == 'I':
+                show_player_info(player)
+                continue
+            elif ch == 'M':
+                show_map(grid, player, fog)
+                continue
+            elif ch == 'E':
+                # enter mine
+                try:
+                    enter_mine(grid, player, fog)
+                except SystemExit:
+                    # win -> exit game entirely back to main menu
+                    break
+                continue
+            elif ch == 'V':
+                save_game(player, fog)
+                continue
+            elif ch == 'Q':
+                print('Returning to main menu...')
+                break
+            else:
+                print('Invalid choice.')
+        # back to main menu after finishing town loop
+        continue
+    elif choice == 'L':
+        fog = make_fog()
+        #load player data and fog from a saved file.
+        player_loaded, fog_loaded = load_game(grid)
+        if player_loaded:
+            #Replace the current player with the loaded player data.
+            player = player_loaded
+            # ensure types
+            player['pos'] = list(player['pos'])
+            player['portal'] = list(player['portal'])
+            # fog handling
+            if fog_loaded:
+                fog = fog_loaded
+            else:
+                fog = make_fog()
+            # reveal around player and portal
+            x,y = player['pos']
+            for dy in (-1,0,1):
+                for dx in (-1,0,1):
+                    nx, ny = x+dx, y+dy
+                    if in_bounds(grid, nx, ny):
