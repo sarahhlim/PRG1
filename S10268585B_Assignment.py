@@ -133,3 +133,36 @@ def load_game(grid, filename=SAVE_FILENAME):
         steps = int(lines[count]); count += 1
         day = int(lines[count]); count += 1
         turns_left = int(lines[count]); count += 1
+
+        # remaining lines are fog
+        fog_lines = lines[count:]
+        fog = []
+        for r in fog_lines:
+            fog.append([c == '1' for c in r])
+
+        
+        # checks if the loaded fog grid size matches the size of the current game map (grid).
+        if len(fog) != len(grid) or any(len(fog[r]) != len(grid[0]) for r in range(len(grid))):
+            fog = [[False] * len(grid[0]) for _ in range(len(grid))]
+            # reveal town and portal and player position
+
+            #It bundles all loaded player info into a dictionary to use in the game.
+        player = {
+            'name': name,
+            'pos': pos,
+            'portal': portal,
+            'pickaxe': pickaxe,
+            'capacity': capacity,
+            'copper': copper,
+            'silver': silver,
+            'gold': gold,
+            'gp': gp,
+            'steps': steps,
+            'day': day,
+            'turns_left': turns_left,
+        }
+        print('Game loaded.')
+        return player, fog
+    except Exception as e:
+        print('Failed to load save:', e)
+        return None, None
